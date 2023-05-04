@@ -1,0 +1,151 @@
+  /*NAVBAR COMPONENT!*/
+
+  .navbar {
+    background-color: #191A19;
+    color: #fff;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    
+  }
+
+  .logoContainer {
+    margin: 0.5em;
+    padding: 1.1em;
+  }
+
+  .logo {
+    margin: 0;
+    color: #4E9F3D;
+    cursor: pointer;
+  }
+
+
+  .linksList {
+    margin: 0 1.6em;
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .linkWrap {
+    padding: 1em;
+    cursor: pointer;
+    margin: 0.5em;
+  }
+
+  .link {
+    text-decoration: none;
+    color: #fff;
+  }
+
+  #cta {
+    color: #4E9F3D;
+    border: solid 2px #4E9F3D;
+    padding: .5em 1em;
+    border-radius: 1em;
+  }
+
+  #cta:hover {
+    color: #191A19;
+    background-color: #4E9F3D;
+    border: solid 2px #191A19;
+    transition: 0.2s;
+  }
+
+  .cartContainer {
+    margin: .7em 1em ;
+    
+  }
+
+  /*MOBILE*/
+
+  .menuIcon {
+    margin: .6em 1em ;
+    font-size: 2em;
+    cursor: pointer;
+    color: #4E9F3D;
+  }
+
+  .MobileMenuContainer {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    background-color: #191A19;
+  }
+
+  .MobileLinksList {
+    list-style: none;
+    padding: 0;
+  }
+
+  .MobileLinkWrap {
+    padding: 1em;
+    cursor: pointer;
+    margin: 0.5em;
+    text-align: center ;
+    font-size: 1.4em;
+  }
+
+  .logoLink {
+    text-decoration: none;
+    color: #4E9F3D;
+  }
+
+
+  /* CART CSS HERE!!!! */
+
+  .cartList {
+    list-style: none;
+    
+}
+
+  .cartListItem {   
+    text-decoration: none;
+    color: #fff;
+  }
+
+.cartTitle {
+  color: #fff;
+  text-decoration: underline;
+  
+  margin-top: 0;
+}
+
+.buttonContainer {
+  text-align: center;
+  background-color: #4E9F3D;
+  border-radius: .5rem;
+  
+  width: 30%;
+  margin: auto;
+ 
+}
+
+.ctaButton {
+    color: #fff;
+    padding: .5rem .5rem;
+    
+}
+
+.cartContainer {
+  margin: auto;
+  height: auto;
+  width: 100%;
+  background-color: #191A19;
+  text-align: right !important;
+  padding-bottom: 0.1em;
+}
+
+.containerCont {
+  margin-top: 2em;
+}
+
+.productContainer {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.productsPrice {
+  
+}
