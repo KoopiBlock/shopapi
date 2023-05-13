@@ -6,7 +6,7 @@ export default async function handler(_req, res) {
     //IMPOTRANT!
 
     // eather nextjs or postman do some buggy shit and retrun the id with gid:/ instead of gid://
-    // check here if cartId returns something else throught our own api, slice would needed to be altered
+    // check here if cartId returns something else throught our own api, slice would needed to be altere
 
     const { cartId } = _req.query
     
