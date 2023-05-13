@@ -1,35 +1,55 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import styles from '../../styles/Home.module.css'
+import styles from '../../styles/ProductPage.module.css'
 import Link from 'next/link';
 import { motion } from 'framer-motion'
+import { useState, useEffect } from 'react';
 
-
-function ProductDisplay({slug, imageSrc, imageAlt, title, description, price }) {
-
-    const formattedPrice = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-  });
-
-  return (
-    <div className={styles.product}>
-      <Link href={`/product/${slug}`}>
-        <Image src={imageSrc} alt={imageAlt} width={400} height={400} />
-      </Link>
-      <h2>{title}</h2>
-      <p>{description}</p>
-      <p className={styles.price}>{formattedPrice.format(price)}</p>
-    </div>
-  );
-}
 
 
 
 export default function ProductPage({ product }) {
+    const [screenWidth, setScreenWidth] = useState(0)
+    const [isMobile, setIsMobile] = useState(false)
+    const [activeImage, setActiveImage] = useState('')
+
+    
+
+     
+    useEffect(() => {
+      function watchWidth()  {     
+       setScreenWidth(window.innerWidth)
+      }
+
+      window.addEventListener("resize", watchWidth)
+      watchWidth()
+     
+   }, [])
+
+   useEffect(() => {
+
+       function mobileScreen() {
+           if (screenWidth < 690)  {
+               setIsMobile(true)
+               
+          
+            }   else {
+               setIsMobile(false)
+               
+           }
+       }
+
+       mobileScreen()
+
+   }, [screenWidth])
 
    
     console.log(product)
+
+    const handleImage = (image) => {
+      setActiveImage(image)
+      console.log(activeImage)
+    }
 
     const formattedPrice = new Intl.NumberFormat('en-US', {
         style: 'currency',
@@ -69,6 +89,66 @@ export default function ProductPage({ product }) {
 
     }
 
+    function ProductDisplay({slug, imageSrc, imageAlt, title, description, price, images }) {
+
+      const formattedPrice = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+    });
+
+    console.log(images)
+  
+    return (
+      <div className={styles.productSec}>
+        <div className={styles.productImgs}>         
+            <div className={styles.imagesConatiner}>
+              <div className={styles.mainImageCont}>
+                <Image 
+                    src={activeImage ? (activeImage) : (imageSrc)}
+                    alt={activeImage ? (activeImage) : (imageSrc)}
+                    width={isMobile ? 200 : 450}
+                    height={isMobile ? 200 : 450}
+                    className={styles.mainImage}
+                    />
+              </div>
+              <div className={styles.tinyImagesCont}>
+                {images.map((image, i) => (
+                  <div className={styles.tinyImage} key={i}>
+                    <Image 
+                      src={image.node.src}
+                      alt={image.node.src}
+                      width={isMobile ? 50 : 150}
+                      height={isMobile ? 50 : 150}
+                      onClick={() => handleImage(image.node.src)}
+                    />           
+                  </div>
+                ))}
+              </div>
+            </div>
+        </div>
+        <div className={styles.productCont}>
+          <h2 className={styles.productTitle}>{title}</h2>
+          <p className={styles.productDesc}>{description}</p>
+          <p className={styles.productPrice}>{formattedPrice.format(price)}</p>
+          <div className={styles.ctaContainer}>
+            <motion.p className={styles.ctaLink2} onClick={addToCart}
+              whileTap={{ scale: 0.9 }}
+              whileHover={{ scale: 1.2 }}                        
+            >
+              קנה עכשיו
+            </motion.p>
+            <motion.p className={styles.ctaLink} onClick={addToCart}
+              whileTap={{ scale: 0.9 }}
+              whileHover={{ scale: 1.2 }}                        
+            >
+              הוסף לסלסלה
+            </motion.p>
+          </div>
+        </div>     
+      </div>
+    );
+  }
+
     
     return (
         <div className={styles.container}>
@@ -79,18 +159,9 @@ export default function ProductPage({ product }) {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main className={styles.main}>
-                <h1 className={styles.title}>Store</h1>
 
                 <div className={styles.products}>
-
                     <ProductDisplay {...product} />
-                    <motion.button className={styles.ctaLink} onClick={addToCart}
-                        whileTap={{ scale: 0.9 }}
-                        whileHover={{ scale: 1.2 }}                        
-                    >
-                        הוסף לסלסלה
-                    </motion.button>
-
                 </div>
             </main>
         </div>
@@ -144,6 +215,7 @@ export async function getStaticProps({ params }) {
                 id: node.id,
                 title: node.title,
                 description: node.description,
+                images: node.images.edges,
                 imageSrc: node.images.edges[0].node.src,
                 imageAlt: node.title,
                 price: node.variants.edges[0].node.priceV2.amount,

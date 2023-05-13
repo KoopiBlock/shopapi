@@ -1,12 +1,21 @@
   /*NAVBAR COMPONENT!*/
 
   .navbar {
+    
+
     background-color: #191A19;
     color: #fff;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     
+    max-width: 1500px;
+    margin: auto;
+    
+  }
+
+  .navbarWrap {
+    background-color: #191A19;
   }
 
   .logoContainer {
@@ -68,6 +77,9 @@
   }
 
   .MobileMenuContainer {
+    position: absolute;
+    width: 100%;
+
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -95,6 +107,29 @@
 
   /* CART CSS HERE!!!! */
 
+  .btnsContainer {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+  }
+
+  .listContainer {
+    height: 20em;
+    overflow: auto;
+
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+
+  }
+
+  .listContainer::-webkit-scrollbar {
+    display: none;
+  }
+
+  .productWrapper {
+    margin: 0em 2em;
+  }
+
   .cartList {
     list-style: none;
     
@@ -119,6 +154,7 @@
   
   width: 30%;
   margin: auto;
+  margin-bottom: 2.5em;
  
 }
 
@@ -129,13 +165,82 @@
 }
 
 .cartContainer {
-  margin: auto;
+
+  position: absolute;
+
+  margin: 0em 0em;
   height: auto;
-  width: 100%;
+  width: 40%;
   background-color: #191A19;
   text-align: right !important;
   padding-bottom: 0.1em;
+  margin-bottom: -10em;
 }
+
+@media screen and (max-width: 992px) {
+
+  
+  .cartContainer {
+    margin: 0em 0em;
+    height: auto;
+    width: 50%;
+    background-color: #191A19;
+    text-align: right !important;
+    padding-bottom: 0em;
+  }
+  
+}
+
+@media screen and (max-width: 880px) {
+
+  
+  .cartContainer {
+    margin: 0em 0em;
+    height: auto;
+    width: 60%;
+    background-color: #191A19;
+    text-align: right !important;
+    padding-bottom: 0.1em;
+  }
+  
+ 
+}
+
+@media screen and (max-width: 750px) {
+
+  
+  .cartContainer {
+    margin: 0em 0em;
+    height: auto;
+    width: 100%;
+    background-color: #191A19;
+    text-align: right !important;
+    padding-bottom: 0.1em;
+  }
+
+  .listContainer {
+    height: 20em;
+    overflow: auto;
+
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+
+  }
+
+  .totalPriceWrapper {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    
+    width: 20%;
+    margin: auto;
+  }
+
+  
+ 
+}
+
+
 
 .containerCont {
   margin-top: 2em;
@@ -146,6 +251,92 @@
   flex-direction: row-reverse;
 }
 
-.productsPrice {
+.ImageCont {
+  margin: 1em;
+}
+
+.qt {
+  font-size: 1.5em;
   
+}
+
+.qtBtn {
+  background-color: none;
+  background: none;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+
+
+ 
+ 
+  font-size: 1em;
+  padding-top: .5em;
+  margin: 0 .5em ;
+}
+
+.productsPrice {
+  font-size: 1.5em;
+  
+  color: #4E9F3D;
+}
+
+.qtOutline {
+  display: flex;
+  flex-direction: row;
+ 
+  padding: -1em;
+  margin-right: 2em;
+}
+
+.lineBreak {
+  border: #4E9F3D solid 1px;
+  height: 1px;
+}
+
+.totalPriceWrapper {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  
+  width: 70%;
+  margin: auto;
+}
+
+.totalPrice {
+  color: #fff;
+  font-size: 1.5em;
+}
+
+.titleWrap {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+}
+
+.deleteBtn {
+ 
+  margin: 1.2em 2em;
+  cursor: pointer;
+}
+
+.emptyCartCont {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding-top: 2em;
+
+}
+
+.emptyCart {
+  color: #444444;
+  font-size: 10em;
+  text-align: center;
+}
+
+.emptyCartText {
+
+  color: #444444;
 }

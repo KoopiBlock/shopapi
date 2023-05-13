@@ -2,7 +2,7 @@ import Head from 'next/head'
 
 import styles from '../styles/Home.module.css'
 
-import { Navbar, Footer, Product, Header, Cart } from '@/components';
+import {Product, Header } from '@/components';
 
 export async function getServerSideProps() {
 
@@ -63,6 +63,8 @@ export async function getServerSideProps() {
   }
 }
 
+
+
 export default function Home({products}) {
 
   
@@ -74,7 +76,7 @@ export default function Home({products}) {
         </div>
         <div>
           <div className={styles.titleContainer}>
-            <h1>Our products:</h1>
+            <h1>פה יהיו קטגוריות למוצרים</h1>
           </div>
           <div className={styles.productsSection}>
               {products.map((product) => (

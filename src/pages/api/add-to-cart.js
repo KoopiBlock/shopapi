@@ -45,8 +45,8 @@ export default async function handler(_req, res) {
 
     const data = await postToShopify({
         query: `
-            mutation AddToCart($cartId: ID!, $variantId: ID!) {
-                cartLinesAdd(cartId: $cartId, lines: [{ quantity: 1, merchandiseId: $variantId}]) {
+            mutation AddToCart($realCartId: ID!, $realProductId: ID!) {
+                cartLinesAdd(cartId: $realCartId, lines: [{ quantity: 1, merchandiseId: $realProductId}]) {
                 cart {
                     lines(first: 100) {
                     edges {
@@ -67,7 +67,7 @@ export default async function handler(_req, res) {
                 }
             }
         `,
-        variables: { cartId, variantId },
+        variables: { realCartId, realProductId },
     })
 
     console.log(data)

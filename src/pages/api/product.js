@@ -36,7 +36,7 @@ export default async function handler(_req, res) {
                   currencyCode
                 }
               }
-              images(first: 1) {
+              images(first: 5) {
                 edges {
                   node {
                     src

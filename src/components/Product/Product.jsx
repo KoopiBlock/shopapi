@@ -53,23 +53,17 @@ const Product = ({ product }) => {
   return (
     <div className={styles.product}>
       <Link href={`/product/${product.slug}`}>
-        <Image src={product.imageSrc} alt={product.imageAlt} width={400} height={400} />
+        <Image src={product.imageSrc} alt={product.imageAlt} width={250} height={250} />
+        <h2>{product.title}</h2>
+        <p className={styles.price}>{formattedPrice.format(product.price)}</p>
       </Link>
-      <h2>{product.title}</h2>
-      <p className={styles.price}>{formattedPrice.format(product.price)}</p>
-      <div className={styles.ctaContainer}>
-        <motion.p className={styles.ctaLink}
-          whileHover={{ scale: 1.2 }}
-          whileTap={{ scale: 0.9 }}
-        >
-          פרטים נוספים
-        </motion.p>
-        <motion.button className={styles.ctaLink} onClick={addToCart}
+      <div className={styles.ctaContainer}>     
+        <motion.p className={styles.ctaLink} onClick={addToCart}
           whileTap={{ scale: 0.9 }}
           whileHover={{ scale: 1.2 }}                        
         >
           הוסף לסלסלה
-        </motion.button>
+        </motion.p>
       </div>
     </div>
   );

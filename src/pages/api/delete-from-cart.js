@@ -27,8 +27,8 @@ export default async function handler(_req, res) {
      const cartNum = cartId.slice(18)
      const  realCartId  = `gid://shopify/Cart/${cartNum}`
 
-     const ProductNum = variantId.slice(28)
-     const  realProductId  = `gid://shopify/ProductVariant/${ProductNum}`
+     const ProductNum = variantId.slice(22)
+     const  realProductId  = `gid://shopify/CartLine/${ProductNum}`
 
     console.log(cartId, variantId)
     console.log(realCartId, realProductId)
@@ -36,27 +36,21 @@ export default async function handler(_req, res) {
 
     const data = await postToShopify({
         query: `
-            mutation AddToCart($realCartId: ID!, $realProductId: ID!) {
-                cartLinesAdd(cartId: $realCartId, lines: [{ quantity: 1, merchandiseId: $realProductId}]) {
-                cart {
-                    lines(first: 100) {
-                    edges {
-                        node {
-                        id
-                        quantity
-                        merchandise {
-                            ... on ProductVariant {
-                            product {
-                                title
-                            }
+        mutation RemoveFromCart($realCartId: ID!, $realProductId: ID!) {
+                cartLinesRemove(cartId: $realCartId, lineIds: [$realProductId] ){
+                    cart  {
+                        lines(first: 100) {
+                            edges {
+                                node {
+                                id
+                                quantity
+                            
                             }
                         }
-                        }
                     }
-                    }
-                }
-                }
+                }        
             }
+        }
         `,
         variables: { realCartId, realProductId },
     })

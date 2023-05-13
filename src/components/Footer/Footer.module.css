@@ -25,3 +25,40 @@
     text-align: center;
     font-size: 1.5em;
 }
+
+/* support section here*/
+
+.supportCont {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    
+}
+
+.LinksCont {
+    display: flex;
+    flex-direction: row;
+    
+    
+   
+}
+
+.supLinks {
+    text-align: center;
+    margin: 1em 5em;
+    font-size: 1.2em;
+    color: #4E9F3D;
+}
+
+
+@media screen and (max-width: 602px) {
+    .LinksCont {
+        display: flex;
+        flex-direction: column;
+        
+        
+       
+    }
+}

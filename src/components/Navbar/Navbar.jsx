@@ -1,6 +1,14 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import {AiOutlineClose, AiOutlineMenu, AiOutlineShopping, } from 'react-icons/ai'
+import {
+        AiOutlineClose,
+        AiOutlineMenu,
+        AiOutlineShopping,
+        AiOutlinePlusCircle,
+        AiOutlineMinusCircle,
+        AiOutlineDelete,
+        AiOutlineShoppingCart, 
+      } from 'react-icons/ai'
 import styles from './Navbar.module.css'
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence, delay } from 'framer-motion'
@@ -12,10 +20,29 @@ const Navbar = () => {
     const [isMobile, setIsMobile] = useState(false)
     const [open, setOpen] = useState(false)
 
+    const animMenu = {
+      exit: {
+        opacity: 0,
+        height: 0,
+        transtion: {
+          ease: "easeInOut",
+          duration:0.3,
+          delay: 1.2,
+        }
+      },
+      open: {height: "35em", opacity:1},
+      
+    }
+
+
     //cart bellow:
 
     const [cart, setCart] = useState({ id: null, lines: [] });
-    const [cartOpen, setCartOpen] = useState(false);
+    const [cartOpen, setCartOpen ] = useState(true);
+
+    const toggleOpenCart = async () => {
+      setCartOpen(true)
+    }
   
     
     useEffect(() => {
@@ -31,7 +58,7 @@ const Navbar = () => {
     useEffect(() => {
 
         function mobileScreen() {
-            if (screenWidth < 830)  {
+            if (screenWidth < 980)  {
                 setIsMobile(true)
             } else {
                 setIsMobile(false)
@@ -66,6 +93,8 @@ const Navbar = () => {
               })
 
               console.log(exsitingCart.body.cart.estimatedCost.totalAmount)
+             
+              console.log(cartOpen)
 
               return;           
 
@@ -83,6 +112,11 @@ const Navbar = () => {
               lines: [],
           })
 
+          
+          
+
+          
+
           window.localStorage.setItem(
               'koopiBlock:shopify:cart',
               JSON.stringify(localCartData),
@@ -97,12 +131,20 @@ const Navbar = () => {
     
           if (state && state === 'dirty') {
             getCart();
+            setCartOpen(!cartOpen)
+            
+           
             window.localStorage.setItem('koopiBlock:shopify:status', 'clean');
+            
           }
 
+          return () => clearInterval(interval);
+
         }, 500);
+
+        
       
-      return () => clearInterval(interval);
+      
 
   }, [])
 
@@ -121,7 +163,6 @@ const Navbar = () => {
 
     window.localStorage.setItem('koopiBlock:shopify:status', 'dirty')
 
-    
 }
 
   
@@ -149,43 +190,62 @@ const Navbar = () => {
       currency: 'USD',
     });
 
-    const toggledecrease = (quantity) => {
-
+    const deleteItem = async (lineId) => {
+      let localCartData = JSON.parse(
+        window.localStorage.getItem('koopiBlock:shopify:cart')   
+      );
+  
+      console.log(lineId)
+  
+      const result = await fetch(`/api/delete-from-cart?cartId=${localCartData.cartId}&variantId=${lineId}`, {
+             method: 'POST', 
+      })
+  
+      window.localStorage.setItem('koopiBlock:shopify:status', 'dirty')
     }
 
-    const toggleIncrease = (variantId) => {
-        console.log(variantId)
+
+    const decQuantity = async (lineId, qtNum) => {
+
+      let localCartData = JSON.parse(
+        window.localStorage.getItem('koopiBlock:shopify:cart')   
+      );
+  
+      console.log(lineId)
+      console.log(qtNum)
+
+      const newQt = qtNum - 1
+
+      if ( newQt <= 0 ) {
+        const result = await fetch(`/api/delete-from-cart?cartId=${localCartData.cartId}&variantId=${lineId}`, {
+          method: 'POST', 
+        })
+      } else {
+        const result = await fetch(`/api/change-cart-qt?cartId=${localCartData.cartId}&variantId=${lineId}&itemQt=${newQt}`, {
+              method: 'POST', 
+        })
     }
+  
+      window.localStorage.setItem('koopiBlock:shopify:status', 'dirty')
 
-    const animMenu = {
-      exit: {
-        opacity: 0,
-        height: 0,
-        transtion: {
-          ease: "easeInOut",
-          duration:0.3,
-          delay: 1.2,
-        }
-      }
+
+
     }
-
-    
-
-
-    
+  
     
   return (
     <>
+        <div className={styles.navbarWrap}>
         <header className={styles.navbar}>
-        <div>
+        <div >
           <div>
             { cartOpen ?    
 
-                <div className={styles.menuIcon} onClick={toggleCart}> 
+                <div className={styles.menuIcon} onClick={() => toggleCart()}> 
                       <AiOutlineShopping />
                 </div>        
             :
-                <div className={styles.menuIcon} onClick={toggleCart}>
+                <div className={styles.menuIcon} onClick={() => toggleCart()}>
                       <AiOutlineClose />
                 </div>
                 
@@ -255,6 +315,7 @@ const Navbar = () => {
         </>}
      
        </header>
+      </div>
        <AnimatePresence>
 
         {/* this mobile menues when opened! */}
@@ -357,54 +418,91 @@ const Navbar = () => {
        { cartOpen ? 
                 <></>
                 :
-                <div className={styles.cartContainer}>
-                    <h1 className={styles.cartTitle}>
-                        :הסלסלה שלך
-                    </h1>
-                    <ul className={styles.cartList}>
-                        {cart.lines.map(({ node: item }) => (
-                            <li key={item.merchandise?.id} className={styles.cartListItem}>
-                              <div className={styles.productContainer}>
-                                <div>
-                                  {item.merchandise?.product?.images.edges.map(({ node: image }) => (
-                                    <Image
-                                      key={image.url}
-                                      src={image.url}
-                                      alt={'imagine'}
-                                      width={100}
-                                      height={100}
-                                    />
-                                  ))}
-                                </div>
-                                <div>
-                                  <p className={styles.product}>
-                                      {item.quantity} &times; {item.merchandise?.product?.title}
-                                  </p>
-                                  <p className={styles.productsPrice}>
-                                      {item.quantity * item.merchandise?.priceV2.amount}
-                                  </p>
-                                  <div>
-                                    <button onClick={() => addToCart(item.merchandise?.id)}>+</button>
-                                    <p>{item.quantity}</p>
-                                    <button onClick={toggledecrease}>-</button>
+                <motion.div 
+                  className={styles.cartContainer}
+                  variants={animMenu}
+                  initial={{height: 0, }}
+                  animate={cartOpen ? "exit" : "open"}
+                  transition={{duration: .5}}
+                  exit="exit"
+                >
+                    <motion.div className={styles.listContainer}
+                    >
+                      { cart.lines.length > 0 ? (
+                      <motion.ul 
+                        className={styles.cartList}
+                        variants={animMenu}
+                        initial={{height: 0, opacity: 0}}
+                        animate={{ height: '10em', opacity:1}}
+                        transition={{duration: .5}}
+                        exit="exit"
+                      >
+                          {cart.lines.map(({ node: item }) => (
+                              <li key={item.merchandise?.id} className={styles.cartListItem}>
+                                <div className={styles.productContainer}>
+                                  <div className={styles.ImageCont}> 
+                                    {item.merchandise?.product?.images.edges.map(({ node: image }) => (
+                                      <Image
+                                        key={image.url}
+                                        src={image.url}
+                                        alt={'imagine'}
+                                        width={100}
+                                        height={100}
+                                      />
+                                    ))}
+                                  </div>
+                                  <div className={styles.productWrapper}>
+                                    <div className={styles.titleWrap}>
+                                      <p className={styles.product}>
+                                        {item.merchandise?.product?.title}
+                                      </p>
+                                      <AiOutlineDelete className={styles.deleteBtn} onClick={() => deleteItem(item.id)}/>
+                                    </div>
+                                    <div className={styles.btnsContainer}>
+                                      <p className={styles.productsPrice}>
+                                          {item.quantity * item.merchandise?.priceV2.amount}
+                                      </p>
+                                      <div className={styles.qtOutline}>
+                                        <button onClick={() => addToCart(item.merchandise?.id)} className={styles.qtBtn}><AiOutlinePlusCircle /></button>
+                                        <p className={styles.qt}>{item.quantity}</p>
+                                        <button onClick={() => decQuantity(item.id, item.quantity )} className={styles.qtBtn}><AiOutlineMinusCircle /></button>
+                                      </div>
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                            </li>
-                        ))}
-                        <li className={styles.cartListItem}>
-                            <p className={styles.totalPrice}>סהכ לתשלום: {cart.estimatedCost?.amount} </p>
-                        </li>
-                    </ul>
-                    <div className={styles.containerCont}>
+                                <div className={styles.lineBreak} />
+                              </li>
+                          ))}
+                      </motion.ul>
+                      ) : (
+                        <>
+                        <div className={styles.emptyCartCont}>
+                          <AiOutlineShopping className={styles.emptyCart}/>
+                          <p className={styles.emptyCartText}>הסלסלה שלך ריקה</p>
+                        </div>
+                        </>
+                      )}
+                    </motion.div>
+                    <motion.div className={styles.containerCont}
+                      variants={animMenu}
+                      initial={{height: 0, opacity: 0}}
+                      animate={{height: "10em", opacity:1}}
+                      transition={{duration: 1.6}}
+                      exit="exit"
+                    >
+                      <div className={styles.totalPriceWrapper}>
+                        <p className={styles.totalPrice}>:סהכ לתשלום </p> 
+                        <p className={styles.totalPrice}>{cart.estimatedCost?.amount} </p>
+                      </div>
+                      
                       <div className={styles.buttonContainer}>
                           <Link  href={`${cart.checkoutUrl}`}>
                               <p className={styles.ctaButton} >מעבר לתשלום</p> 
                           </Link>
                       </div>
-                    </div>
+                    </motion.div>
                     
-                </div>
+                </motion.div>
             }    
 
        </AnimatePresence>
