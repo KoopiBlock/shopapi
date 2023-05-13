@@ -112,7 +112,7 @@ export default function ProductPage({ product }) {
                     />
               </div>
               <div className={styles.tinyImagesCont}>
-                {images.map((image, i) => (
+                {images?.map((image, i) => (
                   <div className={styles.tinyImage} key={i}>
                     <Image 
                       src={image.node.src}
