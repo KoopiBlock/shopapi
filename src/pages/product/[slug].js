@@ -1,7 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../../styles/ProductPage.module.css'
-import Link from 'next/link';
 import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react';
 
