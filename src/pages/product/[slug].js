@@ -183,7 +183,7 @@ export async function getStaticPaths() {
     const data = await res.json();
 
     return {
-        paths: data.products.edges.map(({ node }) => `/product/${node.handle}`),
+        paths: [data.products.edges.map(({ node }) => `/product/${node.handle}`)],
         fallback: true,
 
     }
