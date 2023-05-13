@@ -71,7 +71,7 @@ export default async function handler(_req, res) {
           }
         }
         `,
-        variables: { realCartId },
+        variables: { cartId },
       });
 
       console.log('hello there',data)
