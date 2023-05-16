@@ -14,7 +14,7 @@ export default async function handler(_req, res) {
     const  realCartId  = `gid://shopify/Cart/${cartNum}`
 
 
-    console.log ( realCartId )
+    console.log ( cartId )
     console.log(cartNum)
 
 
