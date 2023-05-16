@@ -4,6 +4,9 @@ import styles from '../../styles/ProductPage.module.css'
 import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react';
 
+import { FaShippingFast } from 'react-icons/fa'
+import { GoPackage } from 'react-icons/go'
+
 
 
 
@@ -57,36 +60,38 @@ export default function ProductPage({ product }) {
 
 
     // to abstaract it out
-      const addToCart = async () => {
+    const addToCart = async () => {
 
-        let localCartData = JSON.parse(
-          window.localStorage.getItem('koopiBlock:shopify:cart')
+      let localCartData = JSON.parse(
+        window.localStorage.getItem('koopiBlock:shopify:cart')
 
-        
-        );
+      
+      );
 
-        if (!localCartData.cartId) {
-          console.error('woops there was an error loading zi cart')
-          return
-        }
+      console.log (localCartData)
 
-        console.log(localCartData.cartId)
-        console.log(product.variantId)
+      if (!localCartData.cartId) {
+        console.error('woops there was an error loading zi cart')
+        return
+      }
 
-         const result = await fetch(`http://localhost:3000/api/add-to-cart?cartId=${localCartData.cartId}&variantId=${product.variantId}`, {
-           method: 'POST', 
-         })
+      console.log(localCartData.cartId)
+      console.log(product.variantId)
 
-         console.log(result)
+       const result = await fetch(`/api/add-to-cart?cartId=${localCartData.cartId}&variantId=${product.variantId}`, {
+         method: 'POST', 
+       })
 
-         if (!result.ok) {
-           console.error('There was a problem adding the item to the cart');
-           return;
-         }
+       console.log(result)
 
-         window.localStorage.setItem('koopiBlock:shopify:status', 'dirty')
+       if (!result.ok) {
+         console.error('There was a problem adding the item to the cart');
+         return;
+       }
 
-    }
+       window.localStorage.setItem('koopiBlock:shopify:status', 'dirty')
+
+  }
 
     function ProductDisplay({slug, imageSrc, imageAlt, title, description, price, images }) {
 
@@ -127,21 +132,25 @@ export default function ProductPage({ product }) {
         </div>
         <div className={styles.productCont}>
           <h2 className={styles.productTitle}>{title}</h2>
-          <p className={styles.productDesc}>{description}</p>
           <p className={styles.productPrice}>{formattedPrice.format(price)}</p>
+          <p className={styles.productDesc}>{description}</p>
           <div className={styles.ctaContainer}>
-            <motion.p className={styles.ctaLink2} onClick={addToCart}
-              whileTap={{ scale: 0.9 }}
-              whileHover={{ scale: 1.2 }}                        
-            >
-              קנה עכשיו
-            </motion.p>
             <motion.p className={styles.ctaLink} onClick={addToCart}
               whileTap={{ scale: 0.9 }}
               whileHover={{ scale: 1.2 }}                        
             >
               הוסף לסלסלה
             </motion.p>
+          </div>
+          <div className={styles.shippings}>
+            <div className={styles.shippingCont}>
+              <GoPackage className={styles.shipIcon}/>
+              <p className={styles.shipText}>משלוח עד לבית</p>
+            </div>
+            <div className={styles.shippingCont}>
+              <FaShippingFast className={styles.shipIcon}/>
+              <p className={styles.shipText}>משלוח עד לבית</p>
+            </div>
           </div>
         </div>     
       </div>
@@ -182,8 +191,10 @@ export async function getStaticPaths() {
 
     const data = await res.json();
 
+    console.log('yeeet',data.products.edges.map(({ node }) => `/product/${node.handle}`))
+
     return {
-        paths: [data.products.edges.map(({ node }) => `/product/${node.handle}`)],
+        paths: data.products.edges.map(({ node }) => `/product/${node.handle}`),
         fallback: true,
 
     }

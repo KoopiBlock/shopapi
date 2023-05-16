@@ -13,5 +13,31 @@
 
 .titleContainer {
   text-align: center;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
   
+}
+
+.categoryTitle {
+  cursor: pointer;
+  font-weight: 700;
+  padding: 1em 1.5em;
+  font-size: 1.5em;
+}
+
+.activeCat {
+  color: #4E9F3D;
+  text-decoration: underline;
+}
+
+@media screen and (max-width: 555px) { 
+  .categoryTitle {
+    font-size: 1em;
+  }
+
+  .titleContainer {
+    flex-wrap: wrap;
+  }
 }

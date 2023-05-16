@@ -21,11 +21,14 @@ const headerStyle ={
   alignItems: 'center',
 }
 
-const Header = () => {
+const Header = ({ title, desc }) => {
+
+  console.log(title, desc)
   return (
     <div className={styles.sectionContainer}>
         <div style={headerStyle} className={styles.headerConatiner} >
-          <h1 className={styles.headerTitle}>מכשירי טעינה</h1>       
+          <h1 className={styles.headerTitle}>{title}</h1>
+          <h3 className={styles.headerDesc}>{desc}</h3>              
         </div>      
     </div>
   )

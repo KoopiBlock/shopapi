@@ -8,13 +8,25 @@
    
     margin-top: -2em;
     overflow: hidden;
-    height: 35em;
+    height: 30em;
     
+}
+
+.headerConatiner {
+    display: flex;
+    flex-direction: column;
 }
 
 .headerTitle {
     color: #fff;
     font-size: 5em;
+}
+
+.headerDesc {
+    color: #fff;
+    font-size: 2em;
+    font-weight: 400;
+    
 }
 
 
@@ -24,6 +36,12 @@
         
         font-size: 3em;
     }
+
+    .headerDesc {
+    
+        font-size: 1em;
+    }
+    
 }
 
 
