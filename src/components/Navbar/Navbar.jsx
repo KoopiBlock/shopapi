@@ -492,7 +492,7 @@ const Navbar = () => {
                     >
                       <div className={styles.totalPriceWrapper}>
                         <p className={styles.totalPrice}>:סהכ לתשלום </p> 
-                        <p className={styles.totalPrice}>{cart.estimatedCost?.amount} </p>
+                        <p className={styles.totalPrice}>{cart?.estimatedCost?.amount} </p>
                       </div>
                       
                       <div className={styles.buttonContainer}>
