@@ -104,7 +104,7 @@ props: { categories },
 // return {
 // props: { categories },
 // };
-// }
+// }ddf
 
 export default function Home({ categories }) {
 const [selectedCategoryId, setSelectedCategoryId] = useState(categories[0]?.id);
@@ -116,6 +116,7 @@ setSelectedCategoryId(categoryId);
 const selectedCategory = categories.find((category) => category.id === selectedCategoryId);
 
 return (
+
 <div className={styles.container}>
 <Head>
 <title>Create Next App</title>
@@ -157,7 +158,7 @@ import { postToShopify } from './shopify';
 
 export async function getAllCategories() {
 const data = await postToShopify({
-query: `      query getAllCategories {
+query: `     query getAllCategories {
         collections(first: 100) {
           edges {
             node {
@@ -195,7 +196,7 @@ query: `      query getAllCategories {
           }
         }
       }
-   `,
+  `,
 variables: {},
 });
 
@@ -225,7 +226,7 @@ return Object.values(categories);
 export async function getProductsByCategory(categoryId) {
 try {
 const data = await postToShopify({
-query: `        query getProductsByCategory($categoryId: ID!) {
+query: `       query getProductsByCategory($categoryId: ID!) {
           collection(id: $categoryId) {
             id
             title
@@ -259,7 +260,7 @@ query: `        query getProductsByCategory($categoryId: ID!) {
             }
           }
         }
-     `,
+    `,
 variables: { categoryId },
 });
 
