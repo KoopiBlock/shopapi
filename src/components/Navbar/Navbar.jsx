@@ -85,6 +85,8 @@ const Navbar = () => {
               const exsitingCart = await fetch(`/api/load-cart?cartId=${cartObj.cartId}`
               ).then((res) => res.json())
 
+              console.log(exsitingCart.body.cart)
+
               setCart({
                   id: localCartData.cartId,
                   checkoutUrl: localCartData.checkoutUrl,
@@ -92,7 +94,7 @@ const Navbar = () => {
                   lines: exsitingCart.body.cart.lines?.edges,
               })
 
-              console.log(exsitingCart.body.cart.estimatedCost.totalAmount)
+              
              
               console.log(cartOpen)
 
